@@ -51,16 +51,10 @@ for message in st.session_state.chat_history:
     elif message["role"] == "assistant":
         st.markdown(f"<div style='border: 2px solid green; padding: 10px; margin: 10px 0; border-radius: 8px; width: 80%; float: left; clear: both;'>{message['content']}</div>", unsafe_allow_html=True)
 
-# Function to reset the input buffer
-def clear_input():
-    st.session_state.input_buffer = ""
-
 # Chat input and submit button
-user_input = st.text_input("Type your message here:", key="input_buffer")
-
-if st.button("Send"):
-    if user_input:
-        message = user_input  # Store the input in a variable
+def send_message():
+    if st.session_state.input_buffer:
+        message = st.session_state.input_buffer  # Store the input in a variable
 
         # Append user input to chat history
         st.session_state.chat_history.append({"role": "user", "content": message})
@@ -80,5 +74,6 @@ if st.button("Send"):
         # Clear the input buffer
         st.session_state.input_buffer = ""
         st.experimental_rerun()
-    else:
-        st.warning("Please enter some text to chat.")
+
+user_input = st.text_input("Type your message here:", key="input_buffer")
+st.button("Send", on_click=send_message)
