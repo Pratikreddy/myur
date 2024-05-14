@@ -52,7 +52,7 @@ for message in st.session_state.chat_history:
         st.markdown(f"<div style='border: 2px solid green; padding: 10px; margin: 10px 0; border-radius: 8px; width: 80%; float: left; clear: both;'>{message['content']}</div>", unsafe_allow_html=True)
 
 # Chat input and submit button
-user_input = st.text_input("Type your message here:", key="user_input")
+user_input = st.text_input("Type your message here:", key="user_input", value=st.session_state.get('input_buffer', ''))
 
 if st.button("Send"):
     if user_input:
@@ -73,7 +73,7 @@ if st.button("Send"):
 
         # Clear the input buffer
         st.session_state.input_buffer = ""
-        st.session_state.user_input = ""  # Clear the input field
+        st.session_state.user_input = ""
         st.experimental_rerun()
     else:
         st.warning("Please enter some text to chat.")
