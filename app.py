@@ -51,6 +51,10 @@ for message in st.session_state.chat_history:
     elif message["role"] == "assistant":
         st.markdown(f"<div style='border: 2px solid green; padding: 10px; margin: 10px 0; border-radius: 8px; width: 80%; float: left; clear: both;'>{message['content']}</div>", unsafe_allow_html=True)
 
+# Function to reset the input buffer
+def clear_input():
+    st.session_state.input_buffer = ""
+
 # Chat input and submit button
 def send_message():
     if st.session_state.input_buffer:
@@ -71,9 +75,15 @@ def send_message():
         # Append chatbot response to chat history
         st.session_state.chat_history.append({"role": "assistant", "content": chatbot_response})
 
-        # Clear the input buffer
+        # Clear the input buffer and trigger rerun
         st.session_state.input_buffer = ""
-        st.experimental_rerun()
+        st.session_state.run_count += 1  # Trigger a rerun by updating session state
+
+if "run_count" not in st.session_state:
+    st.session_state.run_count = 0  # Initialize run count
 
 user_input = st.text_input("Type your message here:", key="input_buffer")
 st.button("Send", on_click=send_message)
+
+# Dummy element to force rerun without showing error
+st.write(f"Run count: {st.session_state.run_count}")
