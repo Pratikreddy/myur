@@ -58,7 +58,7 @@ def clear_input():
 # Chat input and submit button
 user_input = st.text_input("Type your message here:", key="input_buffer")
 
-if st.button("Send", on_click=clear_input):
+if st.button("Send"):
     if user_input:
         message = user_input  # Store the input in a variable
 
